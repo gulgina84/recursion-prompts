@@ -6,33 +6,97 @@
 // denoted by n!, is the product of all positive integers less than or equal to n.
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
-var factorial = function(n) {
+
+  var factorial = function(n) {
+    var result = 1;
+    if(n === 0) {
+      return 1;
+    }
+    if (n < 0) {
+      return null;
+    }
+    //recurssive case: result = result*factorial(n-1)
+    result = n * factorial(n-1);
+    return result;
+
+
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+  //declar a result var to store the value;
+  var result = 0;
+  var index = array.length - 1;
+    if (array.length === 0) {
+      return 0;
+    }
+    result = array[index] + sum(array.slice(0, index));
+
+  return result;
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var result = 0;
+  //input is nested array, return a integer of sum
+  if (!Array.isArray(array)) {
+     return array;
+  }
+  //base case: input is not an array, return array;
+  //recursive case: iterate over the array for each result
+   array.forEach(function(item){
+     result += arraySum(item);
+   });
+  //return result
+  return result;
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  //input is a num, output is boolean
+  //var boo is true,
+  var boo = true;
+  if(n === 0){
+    return boo;
+  }
+  if (n > 0) {
+    boo = !isEven(n-1);
+  } else {
+    boo = !isEven(n+1);
+  }
+
+
+  return boo;
+
 };
+
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  var result = 0;
+  if(n === 0){
+    return 0;
+  }
+  n > 0 ? result = n-1 + sumBelow(n - 1) : result = n+1 + sumBelow( n + 1);
+  return result;
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
-};
+ var arr = [];
+if(x < y ? x >= y-1 : y >= x-1){
+ return [];
+}
+x < y ? arr.push(x+1) : arr.unshift(y+1);
+x < y ? arr = arr.concat(range(x+1,y)) : arr = (range(x, y+1).concat(arr))
+
+return arr;
+}
 
 // 7. Compute the exponent of a number.
 // The exponent of a number says how many times the base number is used as a factor.
@@ -40,6 +104,13 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  var result = 1;
+ if (exp === 0) {
+   return 1;
+ }
+ exp > 0 ? result = base * exponent(base, exp-1) : result = Number((1 / base * exponent(base, exp + 1)).toFixed(5));
+ return result;
+
 };
 
 // 8. Determine if a number is a power of two.
@@ -47,15 +118,56 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
-};
+
+  if (n / 2 === 1 || n === 1 ) {
+    return true;
+  }
+  if (Number.isInteger(n/2) && n/2 !== 0){
+    return powerOfTwo(n/2);
+  };
+  return false;
+
+ };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+
+  var result = '';
+   if (string.length === 0) {
+     return '';
+   }
+  result = string[string.length - 1];
+  string = string.slice(0, string.length - 1);
+  result += reverse(string)
+  return result;
+
 };
+
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-};
+  if (string.length === 1 ) {
+    return true;
+  }
+var mid = Math.floor(string.length/2);
+var end = string.length-1;
+var start = 0;
+console.log(mid,end);
+if (start === mid && string[mid].toLowerCase()===string[end].toLowerCase()){
+    return true;
+  } else if (end === mid && string[mid].toLowerCase() === string[start].toLowerCase()) {
+    return true;
+  }
+
+
+if (string[start].toLowerCase() === string[end].toLowerCase()){
+  return palindrome(string.slice(start+1,end))
+}
+
+return false;
+
+
+}
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
